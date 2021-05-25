@@ -1,0 +1,14 @@
+---
+classes:
+ - 'yum'
+ # - 'domain_join'
+
+yum::repos:
+  htcondor:
+    ensure: 'present'
+    enabled: true
+    descr: 'WGSyd Base Repo'
+    mirrorlist: 'absent'
+    descr: 'HTCondor Development RPM Repository for Redhat Enterprise Linux 7'
+    baseurl: https://research.cs.wisc.edu/htcondor/yum/development/rhel7
+    gpgcheck: false

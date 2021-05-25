@@ -1,0 +1,17 @@
+---
+classes:
+  - 'profile::common::packages'
+
+packages::installed:
+ - vim
+ - iotop
+ - nmap
+ - tcpdump
+ - sysstat
+ - wget
+ - bind-utils
+ - net-tools
+ - yum-cron
+ - rh-python38
+ - dnsmasq
+ - docker
