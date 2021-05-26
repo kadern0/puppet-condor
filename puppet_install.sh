@@ -21,7 +21,7 @@ case "`echo $VARIANT | awk '{print tolower($1)}'`" in
 esac
 }
 
-PUPPET_PROJECT=https://gitlab.wgsyd.dev/devops/puppet-hiera.git
+PUPPET_PROJECT=https://github.com/kadern0/puppet-condor.git
 PUPPET_LOCAL_DIR=/etc/puppet-code
 VARIANT="`cat /etc/redhat-release | awk '{print tolower($1)}'`"
 MAJOR_RELEASE="`cat /etc/redhat-release | grep -oE '[0-9].*' | awk '{print $1}' | cut -f1 -d '.'`"
