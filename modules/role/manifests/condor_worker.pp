@@ -8,6 +8,18 @@ class role::condor_worker {
     name   => 'condor',
     groups => ['dockerroot'],
   }
+  yum::repos{ 'htcondor':
+      ensure     => 'present',
+      enabled    => true,
+      mirrorlist => 'absent',
+      descr      => 'HTCondor Development RPM Repository for Redhat Enterprise Linux 7',
+      baseurl    => 'https://research.cs.wisc.edu/htcondor/yum/development/rhel7',
+      gpgcheck   => false,
+  }
+  package { 'condor':
+    ensure => installed,
+  }
+
   #  include profile::sys_base::centos7_base
   exec { 'sudo firewall-cmd --zone=public --add-port=9618/tcp --permanent':
     path => ['/usr/bin'],
@@ -39,8 +51,7 @@ class role::condor_worker {
   }
   file { '/etc/docker/daemon.json':
     ensure  => present,
-    content => "
-      {
+    content => "{
       \"live-restore\": true,
       \"group\": \"dockerroot\"
       }
