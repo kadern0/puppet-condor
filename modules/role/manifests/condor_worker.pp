@@ -23,28 +23,27 @@ class role::condor_worker {
     mode   => '0700',
   }
   file {'/etc/condor/config.d/50-security':
-    ensure => present,
-    source => [
-      " SEC_PASSWORD_FILE = /etc/condor/passwords.d/POOL
-      SEC_DAEMON_AUTHENTICATION = REQUIRED
-      SEC_DAEMON_INTEGRITY = REQUIRED
-      SEC_DAEMON_AUTHENTICATION_METHODS = PASSWORD
-      SEC_NEGOTIATOR_AUTHENTICATION = REQUIRED
-      SEC_NEGOTIATOR_INTEGRITY = REQUIRED
-      SEC_NEGOTIATOR_AUTHENTICATION_METHODS = PASSWORD
-      SEC_CLIENT_AUTHENTICATION_METHODS = FS, PASSWORD, KERBEROS, GSI
-      ALLOW_DAEMON = condor_pool@*/*, condor@*/$(IP_ADDRESS)
-      ALLOW_NEGOTIATOR = condor_pool@*/condor-manager.dev.local
-      "
-
-    ]
+    ensure  => present,
+    content => "
+    SEC_PASSWORD_FILE = /etc/condor/passwords.d/POOL
+    SEC_DAEMON_AUTHENTICATION = REQUIRED
+    SEC_DAEMON_INTEGRITY = REQUIRED
+    SEC_DAEMON_AUTHENTICATION_METHODS = PASSWORD
+    SEC_NEGOTIATOR_AUTHENTICATION = REQUIRED
+    SEC_NEGOTIATOR_INTEGRITY = REQUIRED
+    SEC_NEGOTIATOR_AUTHENTICATION_METHODS = PASSWORD
+    SEC_CLIENT_AUTHENTICATION_METHODS = FS, PASSWORD, KERBEROS, GSI
+    ALLOW_DAEMON = condor_pool@*/*, condor@*/$(IP_ADDRESS)
+    ALLOW_NEGOTIATOR = condor_pool@*/condor-manager.dev.local
+    "
   }
   file { '/etc/docker/daemon.json':
-    ensure => present,
-    source => [
-      "{
+    ensure  => present,
+    content => "
+      {
       \"live-restore\": true,
       \"group\": \"dockerroot\"
-    }"
-]}
+      }
+      "
+  }
 }
