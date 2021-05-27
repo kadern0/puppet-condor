@@ -8,13 +8,15 @@ class role::condor_worker {
     name   => 'condor',
     groups => ['dockerroot'],
   }
-  yum::repos{ 'htcondor':
+  yum{ 'repos':
+    htcondor => {
       ensure     => 'present',
       enabled    => true,
       mirrorlist => 'absent',
       descr      => 'HTCondor Development RPM Repository for Redhat Enterprise Linux 7',
       baseurl    => 'https://research.cs.wisc.edu/htcondor/yum/development/rhel7',
       gpgcheck   => false,
+      }
   }
   package { 'condor':
     ensure => installed,
