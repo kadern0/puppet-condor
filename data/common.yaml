@@ -12,6 +12,5 @@ packages::installed:
  - bind-utils
  - net-tools
  - yum-cron
- - rh-python38
  - dnsmasq
  - docker
