@@ -38,8 +38,9 @@ if [ $? -eq 0 ]; then
     rm -rf ${PUPPET_LOCAL_DIR}
     mkdir -p ${PUPPET_LOCAL_DIR}
     git clone ${PUPPET_PROJECT} ${PUPPET_LOCAL_DIR}
-    (crontab -l | grep -v 'puppet apply' ) | crontab -
-    (crontab -l 2>/dev/null; echo "*/30 * * * * git --git-dir=${PUPPET_LOCAL_DIR}/.git --work-tree=${PUPPET_LOCAL_DIR} pull && /opt/puppetlabs/puppet/bin/puppet apply --modulepath ${PUPPET_LOCAL_DIR}/modules --hiera_config ${PUPPET_LOCAL_DIR}/hiera.yaml ${PUPPET_LOCAL_DIR}/manifests/site.pp" ) | crontab -
+    /opt/puppetlabs/puppet/bin/puppet apply --modulepath ${PUPPET_LOCAL_DIR}/modules --hiera_config ${PUPPET_LOCAL_DIR}/hiera.yaml ${PUPPET_LOCAL_DIR}/manifests/site.pp
+#    (crontab -l | grep -v 'puppet apply' ) | crontab -
+#    (crontab -l 2>/dev/null; echo "*/30 * * * * git --git-dir=${PUPPET_LOCAL_DIR}/.git --work-tree=${PUPPET_LOCAL_DIR} pull && /opt/puppetlabs/puppet/bin/puppet apply --modulepath ${PUPPET_LOCAL_DIR}/modules --hiera_config ${PUPPET_LOCAL_DIR}/hiera.yaml ${PUPPET_LOCAL_DIR}/manifests/site.pp" ) | crontab -
 else
     echo "error: Failed to install puppet"
     exit 1
