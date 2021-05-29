@@ -57,4 +57,35 @@ class role::condor_worker {
       }
       "
   }
+  file { '/etc/condor/config.d/49-common':
+    ensure  => present,
+    content => "CONDOR_HOST = condor-manager.dev.local
+  "
+  }
+  file { '/etc/condor/config.d/51-role-exec':
+    ensure  => present,
+    content => "use ROLE: Execute
+    "
+  }
+  # address=/0-condor-worker1.dev.local/10.240.0.11
+#  address=/1-condor-worker1.dev.local/10.240.0.11
+
+  exec { "echo address=/0-${fqdn}.domain.local/${ipaddress_eth0} >> /etc/dnsmasq.conf":
+    path => ['/usr/bin'],
+  }
+
+  exec { 'condor_store_cred -c -p condor':
+    path => ['/usr/sbin'],
+  }
+
+  service { 'docker':
+    ensure  => running,
+    enabled => true,
+    restart => '',
+  }
+  service { 'condor':
+    ensure  => running,
+    enabled => true,
+    restart => '',
+  }
 }
