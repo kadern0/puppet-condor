@@ -74,7 +74,7 @@ class role::condor_worker {
   # address=/0-condor-worker1.dev.local/10.240.0.11
 #  address=/1-condor-worker1.dev.local/10.240.0.11
 
-  exec { "echo address=/0-${hostname}.domain.local/${ipaddress_eth0} >> /etc/dnsmasq.conf":
+  exec { "echo address=/0-${hostname}.dev.local/${ipaddress_eth0} >> /etc/dnsmasq.conf":
     path => ['/usr/bin'],
   }
   exec { 'echo nameserver 127.0.0.1 >> /etc/resolv.conf':
@@ -91,7 +91,7 @@ class role::condor_worker {
     path => ['/usr/bin'],
   }
 
-  exec { 'condor_store_cred -c -p condor':
+  exec { 'condor_store_cred add -c -p condor':
     path => ['/usr/sbin'],
   }
 
