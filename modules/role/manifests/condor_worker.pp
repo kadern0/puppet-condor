@@ -80,12 +80,12 @@ class role::condor_worker {
 
   service { 'docker':
     ensure  => running,
-    enabled => true,
+    enable => true,
     restart => '',
   }
   service { 'condor':
     ensure  => running,
-    enabled => true,
+    enable  => true,
     restart => '',
   }
 }
