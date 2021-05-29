@@ -3,6 +3,10 @@
 # Class to track all profiles attached
 
 class role::condor_worker {
+  group { 'dockerroot':
+    name   => dockerroot,
+    ensure => present,
+  }
   user { 'condor':
     ensure => present,
     name   => 'condor',
@@ -70,7 +74,20 @@ class role::condor_worker {
   # address=/0-condor-worker1.dev.local/10.240.0.11
 #  address=/1-condor-worker1.dev.local/10.240.0.11
 
-  exec { "echo address=/0-${fqdn}.domain.local/${ipaddress_eth0} >> /etc/dnsmasq.conf":
+  exec { "echo address=/0-${hostname}.domain.local/${ipaddress_eth0} >> /etc/dnsmasq.conf":
+    path => ['/usr/bin'],
+  }
+  exec { 'echo nameserver 127.0.0.1 >> /etc/resolv.conf':
+    path => ['/usr/bin'],
+  }
+
+  exec { 'echo 10.240.0.10 condor-manager.dev.local condor-manager >> /etc/hosts':
+    path => ['/usr/bin'],
+  }
+  exec { 'echo 10.46.0.2  spark-master-0.spark-headless.default.svc.cluster.local >> /etc/hosts':
+    path => ['/usr/bin'],
+  }
+  exec { "echo ${ipaddress_eth0} ${hostname}.dev.local >> /etc/hosts":
     path => ['/usr/bin'],
   }
 
@@ -80,7 +97,7 @@ class role::condor_worker {
 
   service { 'docker':
     ensure  => running,
-    enable => true,
+    enable  => true,
     restart => '',
   }
   service { 'condor':
